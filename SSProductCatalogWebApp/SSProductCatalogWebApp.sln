@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSProductCatalogWebApp", "SSProductCatalogWebApp\SSProductCatalogWebApp.csproj", "{620EC54F-9CC6-4E80-8F58-EA71AE1F6A43}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SSProductCatalogUnitTest", "SSProductCatalogUnitTest\SSProductCatalogUnitTest.csproj", "{3B5BAD03-A71D-4E6B-BC17-F1DFF64E03AF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{620EC54F-9CC6-4E80-8F58-EA71AE1F6A43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{620EC54F-9CC6-4E80-8F58-EA71AE1F6A43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{620EC54F-9CC6-4E80-8F58-EA71AE1F6A43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{620EC54F-9CC6-4E80-8F58-EA71AE1F6A43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B5BAD03-A71D-4E6B-BC17-F1DFF64E03AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B5BAD03-A71D-4E6B-BC17-F1DFF64E03AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B5BAD03-A71D-4E6B-BC17-F1DFF64E03AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B5BAD03-A71D-4E6B-BC17-F1DFF64E03AF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
