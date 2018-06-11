@@ -205,6 +205,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductsCatalogController.cs" />
+    <Compile Include="DateRangeAttribute.cs" />
     <Compile Include="Models\EditProductViewModels.cs" />
     <Compile Include="Services\ProductsAPIService.cs" />
     <Compile Include="Global.asax.cs">

@@ -19,6 +19,7 @@ namespace SSProductCatalogWebApp.Models {
     [Range(1,999,ErrorMessage = "Price should be between 0 and 999")]
     public decimal Price { get; set; }
     [Required]
+    [DateRange]
     public System.DateTime LastUpdated { get; set; }
   }
 }
