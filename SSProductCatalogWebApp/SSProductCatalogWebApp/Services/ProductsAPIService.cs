@@ -12,32 +12,34 @@ using SSProductCatalogWebApp;
 
 namespace SSProductCatalogWebApp.Controllers
 {
-    public class ProductsAPIService : ApiController
+  public class ProductsAPIService : ApiController
+  {
+    private ProductCatalogEntities db = new ProductCatalogEntities();
+
+    // GET: api/Products
+    public IQueryable<Product> GetProducts()
     {
-        private ProductCatalogEntities db = new ProductCatalogEntities();
+      return db.Products;
+    }
 
-        // GET: api/Products
-        public IQueryable<Product> GetProducts()
-        {
-            return db.Products;
-        }
-
-        // GET: api/Products/5
-        [ResponseType(typeof(Product))]
-        public IHttpActionResult GetProduct(int id)
-        {
-            Product product = db.Products.Find(id);
-            if (product == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(product);
-        }
-
-    public Product GetProductById(int id) {
+    // GET: api/Products/5
+    [ResponseType(typeof(Product))]
+    public IHttpActionResult GetProduct(int id)
+    {
       Product product = db.Products.Find(id);
-      if (product == null) {
+      if (product == null)
+      {
+        return NotFound();
+      }
+
+      return Ok(product);
+    }
+
+    public Product GetProductById(int id)
+    {
+      Product product = db.Products.Find(id);
+      if (product == null)
+      {
         throw new Exception("Product not found");
       }
       return product;
@@ -45,82 +47,86 @@ namespace SSProductCatalogWebApp.Controllers
 
     // PUT: api/Products/5
     [ResponseType(typeof(void))]
-        public IHttpActionResult PutProduct(int id, Product product)
+    public IHttpActionResult PutProduct(int id, Product product)
+    {
+      if (!ModelState.IsValid)
+      {
+        return BadRequest(ModelState);
+      }
+
+      if (id != product.Id)
+      {
+        return BadRequest();
+      }
+
+      db.Entry(product).State = EntityState.Modified;
+
+      try
+      {
+        db.SaveChanges();
+      }
+      catch (DbUpdateConcurrencyException)
+      {
+        if (!ProductExists(id))
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != product.Id)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(product).State = EntityState.Modified;
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ProductExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
+          return NotFound();
         }
-
-        // POST: api/Products
-        [ResponseType(typeof(Product))]
-        public IHttpActionResult PostProduct(Product product)
+        else
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            db.Products.Add(product);
-            db.SaveChanges();
-
-            return CreatedAtRoute("DefaultApi", new { id = product.Id }, product);
+          throw;
         }
+      }
 
-        // DELETE: api/Products/5
-        [ResponseType(typeof(Product))]
-        public IHttpActionResult DeleteProduct(int id)
-        {
-            Product product = db.Products.Find(id);
-            if (product == null)
-            {
-                return NotFound();
-            }
-
-            db.Products.Remove(product);
-            db.SaveChanges();
-
-            return Ok(product);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        private bool ProductExists(int id)
-        {
-            return db.Products.Count(e => e.Id == id) > 0;
-        }
+      return StatusCode(HttpStatusCode.NoContent);
     }
+
+    // POST: api/Products
+    [ResponseType(typeof(Product))]
+    public IHttpActionResult PostProduct(Product product)
+    {
+      if (!ModelState.IsValid)
+      {
+        return BadRequest(ModelState);
+      }
+      //Validate on service side whether the code already exists
+      var allProducts = GetProducts().ToList();
+      var codeExist = allProducts.Exists(a => a.Code == product.Code);
+      if (codeExist) { return BadRequest("Code already exists"); }
+
+      db.Products.Add(product);
+      db.SaveChanges();
+
+      return CreatedAtRoute("DefaultApi", new { id = product.Id }, product);
+    }
+
+    // DELETE: api/Products/5
+    [ResponseType(typeof(Product))]
+    public IHttpActionResult DeleteProduct(int id)
+    {
+      Product product = db.Products.Find(id);
+      if (product == null)
+      {
+        return NotFound();
+      }
+
+      db.Products.Remove(product);
+      db.SaveChanges();
+
+      return Ok(product);
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+      if (disposing)
+      {
+        db.Dispose();
+      }
+      base.Dispose(disposing);
+    }
+
+    private bool ProductExists(int id)
+    {
+      return db.Products.Count(e => e.Id == id) > 0;
+    }
+  }
 }

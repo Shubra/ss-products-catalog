@@ -20,3 +20,5 @@ ClosedXML -  For exporting the data to excel sheet
 Known Issues / Pending changes:
 ----------------------------------
 Swagger implementation.
+Improve on validations also on server side in the API
+Better mock data for unit tests, currently some data needs to be modified as per db

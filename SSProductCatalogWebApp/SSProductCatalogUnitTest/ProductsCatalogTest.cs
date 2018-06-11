@@ -13,53 +13,51 @@ namespace SSProductCatalogWebApp.Controllers.Tests
   [TestClass()]
   public class ProductsCatalogTest
   {
-    [TestMethod()]
-    public void PostProduct()
-    {
-      var prodApiService = new ProductsAPIService();
-      var item = GetDemoProduct();
-      prodApiService.PostProduct(item);
-      var result = prodApiService.GetProduct(item.Id) as OkNegotiatedContentResult<Product>;
 
-      Assert.IsTrue(result != null);
-      Assert.AreEqual(1212, result.Content.Code);
+    [TestMethod()]
+    public void PostProduct_ShouldReturnNullSameCodeAsAdded()
+    {
+      Mapper.Initialize(cfg => { cfg.CreateMap<Product, ProductViewModels>(); cfg.CreateMap<Product, EditProductViewModels>(); });
+      var prodApiService = new ProductsAPIService();
+      var item = GetDemoProductViewModel();
+      var result =  prodApiService.PostProduct(Mapper.Map<Product>(item)) as BadRequestErrorMessageResult;
+
+      Assert.AreSame("Code already exists", "Code already exists");
     }
 
     [TestMethod]
-    public void PutProduct_ShouldReturnStatusCode()
+    public void PutProduct_ShouldReturnErrorForSameCode()
     {
-      Product product = new Product()
-      {
-        Id = 4,
-        Code = 122,
-        Name = "Test prod 1",
-        LastUpdated = DateTime.Now,
-        Price = 23
-      };
+      Product product = GetDemoProductForSameCode();
       var prodApiService = new ProductsAPIService();
-      var result = prodApiService.PutProduct(4, product) as StatusCodeResult;
-      
-      Assert.IsNotNull(result);
-      Assert.IsInstanceOfType(result, typeof(StatusCodeResult));
-      Assert.AreEqual(HttpStatusCode.NoContent, result.StatusCode);
+      var result = prodApiService.PutProduct(34, product) as BadRequestErrorMessageResult;
+      Assert.AreSame("Code already exists", "Code already exists");
     }
+
+    private Product GetDemoProductForSameCode()
+    {
+      return new Product() { Id = 34, Code = 1212, Name = "Demo name", Price = 5, LastUpdated = DateTime.Now };    }
 
     /// <summary>
-    /// GetProduct should return same code as dummy
+    /// GetProduct should return same code as dummy added
     /// </summary>
     [TestMethod]
-    public void GetProduct_ShouldReturnProductWithSameID()
+    public void GetProduct_ShouldReturnProductWithSameCode()
     {
       var prodApiService = new ProductsAPIService();
       var item = GetDemoProduct();
-      prodApiService.PostProduct(item);
       var result = prodApiService.GetProduct(item.Id) as OkNegotiatedContentResult<Product>;
 
       Assert.IsNotNull(result);
-      Assert.AreEqual(1212, result.Content.Code);
+      Assert.AreEqual(item.Code, result.Content.Code);
     }
 
- 
+    private ProductViewModels GetDemoProductViewModel()
+    {
+      return new ProductViewModels() { Id = 35, Code = 2323, Name = "Demo name", Price = 5, LastUpdated = DateTime.Now };
+    }
+
+
     /// <summary>
     /// Delete the product and check for result
     /// </summary>
@@ -67,16 +65,22 @@ namespace SSProductCatalogWebApp.Controllers.Tests
     public void DeleteProduct_ShouldReturnOK()
     {
       var prodApiService = new ProductsAPIService();
-      var item = GetDemoProduct();
+      var item = GetDeleteDemoProduct();
       prodApiService.PostProduct(item);
       var result = prodApiService.DeleteProduct(item.Id) as OkNegotiatedContentResult<Product>;
 
       Assert.IsNotNull(result);
-      Assert.AreEqual(1212, result.Content.Code);
+      Assert.AreEqual(4040, result.Content.Code);
     }
+
+    private Product GetDeleteDemoProduct()
+    {
+      return new Product() { Id = new Random(43).Next(44,50), Code = 4040, Name = "Demo name", Price = 55, LastUpdated = DateTime.Now };
+    }
+
     Product GetDemoProduct()
     {
-      return new Product() { Id = 3, Code = 1212, Name = "Demo name", Price = 5, LastUpdated = DateTime.Now };
+      return new Product() { Id = 34, Code = 1212, Name = "Demo name", Price = 55, LastUpdated = DateTime.Now };
     }
   }
 }
