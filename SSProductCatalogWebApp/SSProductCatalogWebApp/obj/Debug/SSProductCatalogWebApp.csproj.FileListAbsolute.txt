@@ -170,3 +170,4 @@ C:\Users\shubra\Documents\SSProductCatalog\SSProductCatalogWebApp\SSProductCatal
 C:\Users\shubra\Documents\SSProductCatalog\SSProductCatalogWebApp\SSProductCatalogWebApp\obj\Debug\SSProductCatalogWebApp.csprojResolveAssemblyReference.cache
 C:\Users\shubra\Documents\SSProductCatalog\SSProductCatalogWebApp\SSProductCatalogWebApp\obj\Debug\SSProductCatalogWebApp.dll
 C:\Users\shubra\Documents\SSProductCatalog\SSProductCatalogWebApp\SSProductCatalogWebApp\obj\Debug\SSProductCatalogWebApp.pdb
+C:\Users\shubra\Documents\SSProductCatalog\SSProductCatalogWebApp\SSProductCatalogWebApp\bin\FromHeaderAttribute.dll

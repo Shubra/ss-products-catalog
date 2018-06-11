@@ -7,6 +7,8 @@ The Web app is created using database first approach, thus the scripts to create
 
 Execute the CreateProductDB followed by CreatProductTable sql scripts.
 
+Update the connectionstrings in web.config in WebApp and app.config with the appropriate datasource name.
+
 
 Installed Nuget packages:
 ------------------------------
